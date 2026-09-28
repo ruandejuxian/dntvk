@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trường TH,THCS &THPT Trương Vĩnh Ký</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Lexend', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            blue: '#1e40af',
+                            gold: '#f59e0b',
+                            teal: '#0d9488',
+                        },
+                        primarySchool: {
+                            light: '#fef3c7',
+                            DEFAULT: '#f59e0b',
+                            dark: '#d97706',
+                            accent: '#10b981'
+                        },
+                        secondarySchool: {
+                            light: '#e0f2fe',
+                            DEFAULT: '#0284c7',
+                            dark: '#0369a1',
+                            accent: '#f97316'
+                        },
+                        highSchool: {
+                            light: '#e0e7ff',
+                            DEFAULT: '#4338ca',
+                            dark: '#3730a3',
+                            accent: '#ef4444'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-primary { background: linear-gradient(135deg, #f59e0b 0%, #10b981 100%); }
+        .gradient-secondary { background: linear-gradient(135deg, #0284c7 0%, #6366f1 100%); }
+        .gradient-high { background: linear-gradient(135deg, #4338ca 0%, #e11d48 100%); }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="font-sans bg-slate-50 text-slate-800 flex flex-col min-h-screen selection:bg-brand-gold selection:text-white">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-slate-900 text-slate-200 text-xs sm:text-sm py-2 px-4 transition-all">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <div class="flex items-center gap-4">
+                <span class="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide animate-pulse">Tuyển sinh 2026-2027</span>
+                <span class="hidden md:inline">Hệ thống Trường TH, THCS & THPT Trương Vĩnh Ký chính thức mở cổng đăng ký xét tuyển từ 01/03/2026.</span>
+                <span class="md:hidden">Đang mở cổng tuyển sinh năm học mới!</span>
+            </div>
+            <div class="flex items-center gap-4 text-xs">
+                <a href="tel:19001234" class="hover:text-amber-400 transition"><i class="fa-solid fa-phone text-amber-400 mr-1"></i> Hotline: 1900 1234</a>
+                <span class="text-slate-600">|</span>
+                <a href="#tuyensinh" class="hover:text-amber-400 transition"><i class="fa-solid fa-paper-plane text-amber-400 mr-1"></i> Đăng ký ngay</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-md border-b border-slate-100 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-700 via-indigo-600 to-amber-500 flex items-center justify-center text-white shadow-lg shadow-indigo-200 group-hover:scale-105 transition duration-300">
+                        <i class="fa-solid fa-graduation-cap text-2xl"></i>
+                    </div>
+                    <div>
+                        <span class="block text-xl font-extrabold tracking-tight bg-gradient-to-r from-blue-900 via-indigo-800 to-amber-600 bg-clip-text text-transparent">Trương Vĩnh Ký SCHOOL</span>
+                        <span class="block text-[11px] font-semibold text-slate-500 tracking-wider uppercase">Tiểu học • THCS • THPT</span>
+                    </div>
+                </a>
+
+                <!-- Level Selector Buttons (Desktop Center Filter) -->
+                <div class="hidden lg:flex items-center bg-slate-100 p-1.5 rounded-full border border-slate-200">
+                    <button onclick="filterSchoolLevel('all')" id="btn-level-all" class="level-btn active px-4 py-1.5 text-xs font-bold rounded-full transition-all duration-300 bg-white text-blue-900 shadow-sm">
+                        Toàn Trường
+                    </button>
+                    <button onclick="filterSchoolLevel('primary')" id="btn-level-primary" class="level-btn px-4 py-1.5 text-xs font-bold rounded-full transition-all duration-300 text-slate-600 hover:text-amber-600">
+                        <i class="fa-solid fa-child text-amber-500 mr-1"></i> Tiểu Học (1-5)
+                    </button>
+                    <button onclick="filterSchoolLevel('secondary')" id="btn-level-secondary" class="level-btn px-4 py-1.5 text-xs font-bold rounded-full transition-all duration-300 text-slate-600 hover:text-sky-600">
+                        <i class="fa-solid fa-user-graduate text-sky-500 mr-1"></i> THCS (6-9)
+                    </button>
+                    <button onclick="filterSchoolLevel('high')" id="btn-level-high" class="level-btn px-4 py-1.5 text-xs font-bold rounded-full transition-all duration-300 text-slate-600 hover:text-indigo-600">
+                        <i class="fa-solid fa-book-bookmark text-indigo-600 mr-1"></i> THPT (10-12)
+                    </button>
+                </div>
+
+                <!-- Navigation Links & Action Button -->
+                <nav class="hidden md:flex items-center gap-6">
+                    <a href="#gioithieu" class="text-sm font-medium text-slate-700 hover:text-blue-700 transition">Giới Thiệu</a>
+                    <a href="#khoihoc" class="text-sm font-medium text-slate-700 hover:text-blue-700 transition">Khối Học</a>
+                    <a href="#hoatdong" class="text-sm font-medium text-slate-700 hover:text-blue-700 transition">Hoạt Động</a>
+                    <a href="#cosovatchat" class="text-sm font-medium text-slate-700 hover:text-blue-700 transition">Cơ Sở Vật Chất</a>
+                    <a href="#tuyensinh" class="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-lg shadow-amber-200 transition transform hover:-translate-y-0.5 active:translate-y-0">
+                        Tuyển Sinh
+                    </a>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-700 hover:text-blue-700 rounded-lg focus:outline-none">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 space-y-3">
+            <div class="flex flex-col gap-2 p-2 bg-slate-50 rounded-xl mb-3">
+                <span class="text-xs font-bold text-slate-400 px-2 uppercase">Lựa chọn khối học</span>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="filterSchoolLevel('all')" class="px-3 py-2 text-xs font-semibold rounded-lg bg-white shadow-sm border border-slate-200 text-slate-800">Tất Cả</button>
+                    <button onclick="filterSchoolLevel('primary')" class="px-3 py-2 text-xs font-semibold rounded-lg bg-amber-50 text-amber-700 border border-amber-200">Tiểu Học</button>
+                    <button onclick="filterSchoolLevel('secondary')" class="px-3 py-2 text-xs font-semibold rounded-lg bg-sky-50 text-sky-700 border border-sky-200">THCS</button>
+                    <button onclick="filterSchoolLevel('high')" class="px-3 py-2 text-xs font-semibold rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200">THPT</button>
+                </div>
+            </div>
+            <a href="#gioithieu" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-100">Giới Thiệu Trang Trường</a>
+            <a href="#khoihoc" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-100">Chương Trình 3 Cấp Học</a>
+            <a href="#hoatdong" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-100">Hoạt Động & Sự Kiện</a>
+            <a href="#cosovatchat" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg text-base font-medium text-slate-700 hover:bg-slate-100">Cơ Sở Vật Chất</a>
+            <a href="#tuyensinh" onclick="toggleMobileMenu()" class="block text-center w-full mt-2 px-5 py-3 bg-amber-500 text-white font-bold rounded-xl shadow-md">
+                Đăng Ký Tư Vấn Tuyển Sinh
+            </a>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- Hero Section -->
+        <section class="relative overflow-hidden bg-slate-900 py-16 lg:py-24">
+            <!-- Background Elements & Decorative Blobs -->
+            <div class="absolute inset-0 opacity-20">
+                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80" alt="School Banner Background" class="w-full h-full object-cover">
+            </div>
+            <div class="absolute -top-24 -right-24 w-96 h-96 bg-amber-500/20 rounded-full blur-3xl"></div>
+            <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"></div>
+
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center lg:text-left">
+                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-amber-300 text-xs sm:text-sm font-semibold">
+                            <i class="fa-solid fa-award text-amber-400"></i> HỆ THỐNG GIÁO DỤC TH, THCS & THPT CHUẨN QUỐC TẾ
+                        </div>
+                        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight">
+                            Ươm Mầm Tri Thức <br class="hidden sm:inline">
+                            <span class="bg-gradient-to-r from-amber-400 via-sky-300 to-emerald-400 bg-clip-text text-transparent">Vững Bước Tương Lai</span>
+                        </h1>
+                        <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl">
+                            Trường TH, THCS & THPT Trương Vĩnh Ký tạo dựng môi trường học tập hạnh phúc, toàn diện từ Tiểu học đến THPT. Định hình nhân cách, phát triển tư duy toàn cầu và đánh thức tiềm năng riêng biệt trong mỗi học sinh.
+                        </p>
+                        
+                        <!-- CTA Buttons -->
+                        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                            <a href="#tuyensinh" class="px-7 py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 text-white font-bold text-sm rounded-xl shadow-xl shadow-amber-500/25 hover:from-amber-600 hover:to-amber-700 transition transform hover:-translate-y-0.5">
+                                <i class="fa-solid fa-paper-plane mr-2"></i> Đăng Ký Nhập Học
+                            </a>
+                            <a href="#gioithieu" class="px-7 py-3.5 bg-white/10 hover:bg-white/20 text-white font-semibold text-sm rounded-xl backdrop-blur-md border border-white/20 transition">
+                                <i class="fa-solid fa-compass mr-2"></i> Khám Phá Trường
+                            </a>
+                        </div>
+
+                        <!-- Highlights Quick Badges -->
+                        <div class="grid grid-cols-3 gap-4 pt-6 border-t border-white/10 text-slate-300 text-xs sm:text-sm">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                                <span>3 Cấp Học Liền Mạnh</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-circle-check text-sky-400"></i>
+                                <span>Song Ngữ Quốc Tế</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-circle-check text-amber-400"></i>
+                                <span>100% Đạt Chuẩn Chuẩn Đầu Ra</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Floating Card Header Illustration -->
+                    <div class="lg:col-span-5 relative">
+                        <div class="relative mx-auto max-w-md lg:max-w-none">
+                            <div class="absolute -inset-1 rounded-3xl bg-gradient-to-r from-amber-500 via-sky-500 to-indigo-600 blur opacity-40"></div>
+                            <div class="relative bg-slate-800 rounded-3xl p-4 shadow-2xl border border-slate-700/50">
+                                <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80" alt="Học sinh Trương Vĩnh Ký" class="w-full h-80 object-cover rounded-2xl">
+                                
+                                <!-- Floating Stat Badge -->
+                                <div class="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center font-bold text-xl">
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-slate-500 font-medium">Đánh giá phụ huynh</p>
+                                        <p class="text-base font-extrabold text-slate-800">4.9 / 5.0 ⭐⭐⭐⭐⭐</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Stats Bar -->
+        <section class="bg-white py-12 border-b border-slate-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div class="p-4 rounded-2xl bg-amber-50/50 border border-amber-100">
+                        <div class="text-3xl sm:text-4xl font-extrabold text-amber-600 mb-1">15+</div>
+                        <div class="text-xs sm:text-sm font-semibold text-slate-600 uppercase tracking-wide">Năm Phát Triển</div>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-sky-50/50 border border-sky-100">
+                        <div class="text-3xl sm:text-4xl font-extrabold text-sky-600 mb-1">3.500+</div>
+                        <div class="text-xs sm:text-sm font-semibold text-slate-600 uppercase tracking-wide">Học Sinh 3 Cấp</div>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-indigo-50/50 border border-indigo-100">
+                        <div class="text-3xl sm:text-4xl font-extrabold text-indigo-600 mb-1">250+</div>
+                        <div class="text-xs sm:text-sm font-semibold text-slate-600 uppercase tracking-wide">Giáo Viên Chuẩn Quốc Tế</div>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-emerald-50/50 border border-emerald-100">
+                        <div class="text-3xl sm:text-4xl font-extrabold text-emerald-600 mb-1">99.8%</div>
+                        <div class="text-xs sm:text-sm font-semibold text-slate-600 uppercase tracking-wide">Đậu Đại Học Top Đầu</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="gioithieu" class="py-20 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-xs font-bold text-amber-600 uppercase tracking-widest px-3 py-1 bg-amber-100 rounded-full">Về Chúng Tôi</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 mb-4">Hành Trình Giáo Dục Toàn Diện 3 Cấp Học</h2>
+                    <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+                        Trường Trương Vĩnh Ký được thiết kế với lộ trình giáo dục liên thông chuẩn hóa từ lớp 1 đến lớp 12. Giúp học sinh vững vàng kiến thức, phát triển kỹ năng mềm và sẵn sàng trở thành công dân toàn cầu.
+                    </p>
+                </div>
+
+                <!-- 3 Pillars Features Grid -->
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Pillar 1 -->
+                    <div class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col items-start group">
+                        <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-2xl mb-6 group-hover:bg-amber-500 group-hover:text-white transition duration-300">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Tâm Trí Hạnh Phúc</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            Môi trường học tập thân thiện, an toàn. Học sinh được khuyến khích sáng tạo, tự do thể hiện cá tính và phát triển tâm lý vững vàng.
+                        </p>
+                        <span class="text-xs font-semibold text-amber-600 inline-flex items-center gap-1 group-hover:translate-x-1 transition">Tìm hiểu thêm <i class="fa-solid fa-arrow-right text-xs"></i></span>
+                    </div>
+
+                    <!-- Pillar 2 -->
+                    <div class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col items-start group">
+                        <div class="w-14 h-14 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center text-2xl mb-6 group-hover:bg-sky-500 group-hover:text-white transition duration-300">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Tri Thức Hiện Đại</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            Chương trình học kết hợp tinh hoa chương trình Bộ GD&ĐT cùng các phương pháp giảng dạy STEM, Tiếng Anh chuẩn Cambridge.
+                        </p>
+                        <span class="text-xs font-semibold text-sky-600 inline-flex items-center gap-1 group-hover:translate-x-1 transition">Tìm hiểu thêm <i class="fa-solid fa-arrow-right text-xs"></i></span>
+                    </div>
+
+                    <!-- Pillar 3 -->
+                    <div class="bg-white p-8 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col items-start group">
+                        <div class="w-14 h-14 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center text-2xl mb-6 group-hover:bg-indigo-500 group-hover:text-white transition duration-300">
+                            <i class="fa-solid fa-earth-americas"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3">Hội Nhập Toàn Cầu</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            Rèn luyện kỹ năng tư duy phản biện, tranh biện, lãnh đạo bản thân và trình độ ngoại ngữ vượt trội để tự tin vươn ra thế giới.
+                        </p>
+                        <span class="text-xs font-semibold text-indigo-600 inline-flex items-center gap-1 group-hover:translate-x-1 transition">Tìm hiểu thêm <i class="fa-solid fa-arrow-right text-xs"></i></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3 Levels Showcase Section -->
+        <section id="khoihoc" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-xs font-bold text-blue-600 uppercase tracking-widest px-3 py-1 bg-blue-100 rounded-full">Chương Trình Đào Tạo</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 mb-4">Ba Cấp Học - Một Lộ Trình Vững Chắc</h2>
+                    <p class="text-slate-600 text-sm sm:text-base">Mỗi cấp học được thiết kế đặc thù về màu sắc, không gian và chương trình tâm lý phù hợp với sự phát triển của độ tuổi.</p>
+                </div>
+
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <!-- LEVEL 1: TIỂU HỌC -->
+                    <div id="card-primary" class="school-level-card relative rounded-3xl overflow-hidden bg-white border-2 border-amber-200 shadow-lg hover:shadow-2xl transition duration-300 flex flex-col">
+                        <div class="relative h-56 bg-amber-400 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=800&q=80" alt="Khối Tiểu Học" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                            <span class="absolute top-4 left-4 bg-amber-500 text-white font-extrabold text-xs px-3 py-1.5 rounded-full uppercase tracking-wider shadow">
+                                <i class="fa-solid fa-shapes mr-1"></i> Lớp 1 - Lớp 5
+                            </span>
+                            <div class="absolute bottom-4 left-4 right-4 text-white">
+                                <h3 class="text-2xl font-extrabold">Khối Tiểu Học</h3>
+                                <p class="text-amber-200 text-xs font-medium">"Khởi đầu vui vẻ - Tự tin khám phá"</p>
+                            </div>
+                        </div>
+
+                        <div class="p-6 flex-grow flex flex-col justify-between space-y-6">
+                            <ul class="space-y-3 text-slate-600 text-sm">
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-amber-500 mt-1"></i>
+                                    <span>Rèn luyện nếp sống, tư duy sáng tạo qua môn học trải nghiệm.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-amber-500 mt-1"></i>
+                                    <span>Chương trình Tiếng Anh tăng cường chuẩn Cambridge ESOL.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-amber-500 mt-1"></i>
+                                    <span>Phát triển năng khiếu Nghệ thuật, Thể thao và STEM Tiểu học.</span>
+                                </li>
+                            </ul>
+
+                            <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                                <span class="text-xs font-semibold text-slate-500">Độ tuổi: 6 - 10 tuổi</span>
+                                <button onclick="openLevelModal('primary')" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-xl transition">
+                                    Chi tiết khối <i class="fa-solid fa-arrow-right ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LEVEL 2: THCS -->
+                    <div id="card-secondary" class="school-level-card relative rounded-3xl overflow-hidden bg-white border-2 border-sky-200 shadow-lg hover:shadow-2xl transition duration-300 flex flex-col">
+                        <div class="relative h-56 bg-sky-500 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80" alt="Khối THCS" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                            <span class="absolute top-4 left-4 bg-sky-600 text-white font-extrabold text-xs px-3 py-1.5 rounded-full uppercase tracking-wider shadow">
+                                <i class="fa-solid fa-flask mr-1"></i> Lớp 6 - Lớp 9
+                            </span>
+                            <div class="absolute bottom-4 left-4 right-4 text-white">
+                                <h3 class="text-2xl font-extrabold">Khối THCS</h3>
+                                <p class="text-sky-200 text-xs font-medium">"Chủ động học hỏi - Định hình tư duy"</p>
+                            </div>
+                        </div>
+
+                        <div class="p-6 flex-grow flex flex-col justify-between space-y-6">
+                            <ul class="space-y-3 text-slate-600 text-sm">
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-sky-500 mt-1"></i>
+                                    <span>Tập trung các môn Khoa học, Công nghệ và Toán ứng dụng.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-sky-500 mt-1"></i>
+                                    <span>Rèn kỹ năng làm việc nhóm, thuyết trình và giải quyết vấn đề.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-sky-500 mt-1"></i>
+                                    <span>Định hướng sớm sở thích cá nhân & CLB năng khiếu đa dạng.</span>
+                                </li>
+                            </ul>
+
+                            <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                                <span class="text-xs font-semibold text-slate-500">Độ tuổi: 11 - 14 tuổi</span>
+                                <button onclick="openLevelModal('secondary')" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold rounded-xl transition">
+                                    Chi tiết khối <i class="fa-solid fa-arrow-right ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LEVEL 3: THPT -->
+                    <div id="card-high" class="school-level-card relative rounded-3xl overflow-hidden bg-white border-2 border-indigo-200 shadow-lg hover:shadow-2xl transition duration-300 flex flex-col">
+                        <div class="relative h-56 bg-indigo-600 overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Khối THPT" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                            <span class="absolute top-4 left-4 bg-indigo-700 text-white font-extrabold text-xs px-3 py-1.5 rounded-full uppercase tracking-wider shadow">
+                                <i class="fa-solid fa-graduation-cap mr-1"></i> Lớp 10 - Lớp 12
+                            </span>
+                            <div class="absolute bottom-4 left-4 right-4 text-white">
+                                <h3 class="text-2xl font-extrabold">Khối THPT</h3>
+                                <p class="text-indigo-200 text-xs font-medium">"Bứt phá mục tiêu - Bản lĩnh dẫn đầu"</p>
+                            </div>
+                        </div>
+
+                        <div class="p-6 flex-grow flex flex-col justify-between space-y-6">
+                            <ul class="space-y-3 text-slate-600 text-sm">
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-indigo-600 mt-1"></i>
+                                    <span>Phân luồng chuyên sâu: Tự nhiên, Xã hội, Quốc tế (IELTS/SAT).</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-indigo-600 mt-1"></i>
+                                    <span>Tư vấn hướng nghiệp, săn học bổng Đại học trong & ngoài nước.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-check text-indigo-600 mt-1"></i>
+                                    <span>Chương trình lãnh đạo trẻ và dự án nghiên cứu khoa học.</span>
+                                </li>
+                            </ul>
+
+                            <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                                <span class="text-xs font-semibold text-slate-500">Độ tuổi: 15 - 17 tuổi</span>
+                                <button onclick="openLevelModal('high')" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl transition">
+                                    Chi tiết khối <i class="fa-solid fa-arrow-right ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events & Activities Section -->
+        <section id="hoatdong" class="py-20 bg-slate-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                    <div>
+                        <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest px-3 py-1 bg-emerald-100 rounded-full">Sự Kiện & Phong Trào</span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">Hoạt Động Sôi Nổi Tại Trương Vĩnh Ký</h2>
+                    </div>
+
+                    <!-- Category Filter Buttons -->
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="filterActivities('all')" class="act-btn active px-4 py-2 text-xs font-bold rounded-xl bg-slate-900 text-white transition">Tất Cả</button>
+                        <button onclick="filterActivities('primary')" class="act-btn px-4 py-2 text-xs font-bold rounded-xl bg-white text-slate-700 hover:bg-amber-100 hover:text-amber-700 transition">Tiểu Học</button>
+                        <button onclick="filterActivities('secondary')" class="act-btn px-4 py-2 text-xs font-bold rounded-xl bg-white text-slate-700 hover:bg-sky-100 hover:text-sky-700 transition">THCS</button>
+                        <button onclick="filterActivities('high')" class="act-btn px-4 py-2 text-xs font-bold rounded-xl bg-white text-slate-700 hover:bg-indigo-100 hover:text-indigo-700 transition">THPT</button>
+                    </div>
+                </div>
+
+                <!-- Activities Grid -->
+                <div class="grid md:grid-cols-3 gap-8" id="activities-container">
+                    <!-- Activity Item 1 (Primary) -->
+                    <div class="activity-card primary bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition">
+                        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80" alt="Ngày hội Sách" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">Tiểu Học</span>
+                            <h3 class="text-lg font-bold text-slate-900 mt-3 mb-2">Ngày Hội Sách & Xứ Sở Thần Thoại</h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mb-4">Các bé lớp 1-5 hóa thân thành nhân vật cổ tích và giao lưu đọc sách sáng tạo.</p>
+                            <div class="text-[11px] text-slate-400 font-medium flex items-center gap-4">
+                                <span><i class="fa-regular fa-calendar mr-1"></i> 15/03/2026</span>
+                                <span><i class="fa-solid fa-location-dot mr-1"></i> Thư viện Tiểu học</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activity Item 2 (Secondary) -->
+                    <div class="activity-card secondary bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition">
+                        <img src="https://images.unsplash.com/photo-1564069114553-7215e1ff1890?auto=format&fit=crop&w=800&q=80" alt="Robotics STEM" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-sky-600 bg-sky-50 px-2.5 py-1 rounded-md">THCS</span>
+                            <h3 class="text-lg font-bold text-slate-900 mt-3 mb-2">Giải Đấu Robotics & Sáng Tạo STEM 2026</h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mb-4">Học sinh khối THCS chế tạo mô hình robot tự hành giải quyết bài toán môi trường.</p>
+                            <div class="text-[11px] text-slate-400 font-medium flex items-center gap-4">
+                                <span><i class="fa-regular fa-calendar mr-1"></i> 20/03/2026</span>
+                                <span><i class="fa-solid fa-location-dot mr-1"></i> Nhà Thi Đấu Multilab</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Activity Item 3 (High School) -->
+                    <div class="activity-card high bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-lg transition">
+                        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=800&q=80" alt="Model UN" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">THPT</span>
+                            <h3 class="text-lg font-bold text-slate-900 mt-3 mb-2">Hội Nghị Mô Phỏng Liên Hợp Quốc (MUN)</h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mb-4">Học sinh THPT tranh luận các vấn đề biến đổi khí hậu hoàn toàn bằng Tiếng Anh.</p>
+                            <div class="text-[11px] text-slate-400 font-medium flex items-center gap-4">
+                                <span><i class="fa-regular fa-calendar mr-1"></i> 28/03/2026</span>
+                                <span><i class="fa-solid fa-location-dot mr-1"></i> Hội Trường A1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Facilities Section -->
+        <section id="cosovatchat" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-xs font-bold text-purple-600 uppercase tracking-widest px-3 py-1 bg-purple-100 rounded-full">Không Gian Học Tập</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3 mb-4">Cơ Sở Vật Chất Hiện Đại & Đạt Chuẩn</h2>
+                    <p class="text-slate-600 text-sm sm:text-base">Khuôn viên xanh rợp bóng mát, phòng học thông minh cùng hệ thống sân tập thể thao chuẩn quốc tế.</p>
+                </div>
+
+                <!-- Facility Tabs -->
+                <div class="flex justify-center border-b border-slate-200 mb-8 overflow-x-auto">
+                    <button onclick="switchFacilityTab('phonghoc')" id="tab-phonghoc" class="facility-tab text-sm font-bold pb-4 px-6 text-blue-700 border-b-2 border-blue-700">Phòng Học Thông Minh</button>
+                    <button onclick="switchFacilityTab('thinghiem')" id="tab-thinghiem" class="facility-tab text-sm font-bold pb-4 px-6 text-slate-500 border-b-2 border-transparent hover:text-slate-800">Phòng Thí Nghiệm & Lab</button>
+                    <button onclick="switchFacilityTab('thethao')" id="tab-thethao" class="facility-tab text-sm font-bold pb-4 px-6 text-slate-500 border-b-2 border-transparent hover:text-slate-800">Khu Thể Thao & Bể Bơi</button>
+                    <button onclick="switchFacilityTab('thuvien')" id="tab-thuvien" class="facility-tab text-sm font-bold pb-4 px-6 text-slate-500 border-b-2 border-transparent hover:text-slate-800">Thư Viện Mở</button>
+                </div>
+
+                <!-- Facility Content Gallery Displays -->
+                <div id="facility-display" class="grid md:grid-cols-2 gap-8 items-center bg-slate-50 p-8 rounded-3xl border border-slate-100">
+                    <div>
+                        <span id="fac-subtitle" class="text-xs font-extrabold text-amber-500 uppercase tracking-wider">Trang thiết bị tiên tiến</span>
+                        <h3 id="fac-title" class="text-2xl font-bold text-slate-900 mt-1 mb-4">Phòng Học Tương Tác 4.0</h3>
+                        <p id="fac-desc" class="text-slate-600 text-sm leading-relaxed mb-6">
+                            100% phòng học trang bị màn hình tương tác thông minh, máy chiếu hiện đại, hệ thống điều hòa lọc không khí compensated âm thanh chuẩn chống ồn giúp học sinh tập trung tối đa.
+                        </p>
+                        <div class="flex items-center gap-4 text-xs font-semibold text-slate-700">
+                            <span class="px-3 py-1.5 bg-white rounded-lg shadow-sm"><i class="fa-solid fa-wifi text-blue-500 mr-1"></i> Wi-Fi Tốc độ cao</span>
+                            <span class="px-3 py-1.5 bg-white rounded-lg shadow-sm"><i class="fa-solid fa-wind text-teal-500 mr-1"></i> Điều hòa Lọc khí</span>
+                        </div>
+                    </div>
+                    <div>
+                        <img id="fac-image" src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1000&q=80" alt="Cơ sở vật chất" class="w-full h-80 object-cover rounded-2xl shadow-md">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Registration & Contact Section -->
+        <section id="tuyensinh" class="py-20 bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-900 text-white relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid lg:grid-cols-12 gap-12 items-center">
+                    <!-- Text Info -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <span class="text-xs font-bold text-amber-400 uppercase tracking-widest px-3 py-1 bg-white/10 rounded-full border border-white/10">Tuyển Sinh Năm Học 2026 - 2027</span>
+                        <h2 class="text-3xl sm:text-4xl font-extrabold leading-tight">
+                            Đăng Ký Tư Vấn & <br>
+                            <span class="text-amber-400">Tham Quan Trường</span>
+                        </h2>
+                        <p class="text-slate-300 text-sm leading-relaxed">
+                            Quý Phụ huynh vui lòng điền thông tin bên cạnh. Bộ phận Tuyển sinh của Trương Vĩnh Ký School sẽ liên hệ tư vấn lộ trình học phù hợp và sắp xếp lịch tham quan thực tế.
+                        </p>
+
+                        <div class="space-y-4 pt-4">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center">
+                                    <i class="fa-solid fa-phone"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-400">Hotline Tuyển sinh</p>
+                                    <p class="text-sm font-bold">1900 1234 - 0988 123 456</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-400">Email Tiếp Nhận</p>
+                                    <p class="text-sm font-bold">admin@dn.truongvinhky.io.vn</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Registration Form -->
+                    <div class="lg:col-span-7 bg-white text-slate-800 p-8 rounded-3xl shadow-2xl">
+                        <form id="enrollmentForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Thông Tin Đăng Ký</h3>
+                            
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Họ và tên Phụ huynh *</label>
+                                    <input type="text" required placeholder="Nguyễn Văn A" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Số điện thoại *</label>
+                                    <input type="tel" required placeholder="0901234567" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm">
+                                </div>
+                            </div>
+
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Họ và tên Học sinh</label>
+                                    <input type="text" placeholder="Nguyễn Văn B" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 mb-1">Cấp học quan tâm *</label>
+                                    <select required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm bg-white">
+                                        <option value="">-- Chọn Cấp Học --</option>
+                                        <option value="primary">Tiểu Học (Lớp 1 - Lớp 5)</option>
+                                        <option value="secondary">THCS (Lớp 6 - Lớp 9)</option>
+                                        <option value="high">THPT (Lớp 10 - Lớp 12)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 mb-1">Ghi chú / Thắc mắc</label>
+                                <textarea rows="3" placeholder="Phụ huynh muốn tìm hiểu chương trình Song ngữ hay Tiêu chuẩn..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full py-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-extrabold text-sm uppercase tracking-wider rounded-xl shadow-lg shadow-amber-500/30 transition duration-300">
+                                Gửi Đăng Ký Ngay
+                            </button>
+                        </form>
+
+                        <!-- Submission Confirmation Box (Hidden by default) -->
+                        <div id="formSuccess" class="hidden p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-center space-y-3">
+                            <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-emerald-800">Đăng Ký Thành Công!</h4>
+                            <p class="text-xs text-slate-600">Cảm ơn Phụ huynh đã tin tưởng Trường TH, THCS & THPT Trương Vĩnh Ký. Bộ phận Tuyển sinh sẽ liên hệ lại trong vòng 24 giờ làm việc.</p>
+                            <button onclick="resetForm()" class="px-4 py-2 bg-emerald-600 text-white text-xs font-bold rounded-lg hover:bg-emerald-700">Đăng ký mới</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 text-xs sm:text-sm pt-16 pb-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+                <!-- Brand Info -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500 text-slate-900 flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <span class="text-lg font-extrabold text-white">Trương Vĩnh Ký SCHOOL</span>
+                    </div>
+                    <p class="text-slate-400 leading-relaxed text-xs">
+                        Hệ thống trường TH, THCS & THPT hiện đại hàng đầu. Nơi hội tụ tri thức, kiến tạo tương lai vững vàng cho thế hệ trẻ.
+                    </p>
+                    <div class="flex items-center gap-3 text-slate-400">
+                        <a href="#" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-amber-500 hover:text-white flex items-center justify-center transition"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-amber-500 hover:text-white flex items-center justify-center transition"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-amber-500 hover:text-white flex items-center justify-center transition"><i class="fa-brands fa-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-white font-bold text-base mb-4">Liên Kết Nhanh</h4>
+                    <ul class="space-y-2.5">
+                        <li><a href="#gioithieu" class="hover:text-amber-400 transition">Giới thiệu tổng quan</a></li>
+                        <li><a href="#khoihoc" class="hover:text-amber-400 transition">Khối Tiểu Học (Gr. 1-5)</a></li>
+                        <li><a href="#khoihoc" class="hover:text-amber-400 transition">Khối THCS (Gr. 6-9)</a></li>
+                        <li><a href="#khoihoc" class="hover:text-amber-400 transition">Khối THPT (Gr. 10-12)</a></li>
+                        <li><a href="#tuyensinh" class="hover:text-amber-400 transition">Chính sách học phí & Tuyển sinh</a></li>
+                    </ul>
+                </div>
+
+                <!-- Campus Locations -->
+                <div>
+                    <h4 class="text-white font-bold text-base mb-4">Các Cơ Sở</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-location-dot text-amber-500 mt-1"></i>
+                            <span><strong>Cơ sở 1 (Tiểu học):</strong> 178 Hồ Xuân Hương, Phường Xuân Lộc, Đồng Nai.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-location-dot text-sky-500 mt-1"></i>
+                            <span><strong>Cơ sở 2 (THCS & THPT):</strong> 27, Đại lộ Lê lợi, TPHCM</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Map Preview Box -->
+                <div>
+                    <h4 class="text-white font-bold text-base mb-4">Bản Đồ Trường</h4>
+                    <div class="w-full h-36 bg-slate-800 rounded-2xl overflow-hidden relative border border-slate-700">
+                        <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=600&q=80" alt="Bản đồ" class="w-full h-full object-cover opacity-60">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <a href="https://maps.google.com" target="_blank" class="px-3 py-1.5 bg-amber-500 text-slate-900 font-bold text-xs rounded-lg shadow-md hover:bg-amber-400 transition">
+                                <i class="fa-solid fa-map-location-dot mr-1"></i> Xem Google Maps
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-slate-800 text-center text-xs text-slate-500">
+                <p>© 2026 Trường TH, THCS & THPT Trương Vĩnh Ký. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Level Modal Details (Popup Modal) -->
+    <div id="levelModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl animate-fade-in max-h-[90vh] overflow-y-auto">
+            <button onclick="closeLevelModal()" class="absolute top-4 right-4 w-10 h-10 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-full flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div id="modalContent">
+                <!-- Content inserted dynamic via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Toggle Mobile Navigation Menu
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Global Filter for School Levels across the Page
+        function filterSchoolLevel(level) {
+            // Update Active Header Button state
+            document.querySelectorAll('.level-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'text-blue-900', 'shadow-sm');
+                btn.classList.add('text-slate-600');
+            });
+            const activeBtn = document.getElementById(`btn-level-${level}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-white', 'text-blue-900', 'shadow-sm');
+                activeBtn.classList.remove('text-slate-600');
+            }
+
+            // Filter Level Cards Showcase
+            const cards = {
+                primary: document.getElementById('card-primary'),
+                secondary: document.getElementById('card-secondary'),
+                high: document.getElementById('card-high')
+            };
+
+            if (level === 'all') {
+                Object.values(cards).forEach(card => card.style.display = 'flex');
+            } else {
+                Object.keys(cards).forEach(key => {
+                    cards[key].style.display = (key === level) ? 'flex' : 'none';
+                });
+            }
+
+            // Also Filter Activities automatically
+            filterActivities(level);
+        }
+
+        // Filter Activities Cards
+        function filterActivities(level) {
+            // Button Styles
+            document.querySelectorAll('.act-btn').forEach(btn => {
+                btn.classList.remove('bg-slate-900', 'text-white');
+                btn.classList.add('bg-white', 'text-slate-700');
+            });
+            event?.target?.classList?.add('bg-slate-900', 'text-white');
+
+            const actCards = document.querySelectorAll('.activity-card');
+            actCards.forEach(card => {
+                if (level === 'all' || card.classList.contains(level)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Switch Facilities Gallery Tab
+        const facilityData = {
+            phonghoc: {
+                subtitle: 'Trang thiết bị tiên tiến',
+                title: 'Phòng Học Tương Tác 4.0',
+                desc: '100% phòng học trang bị màn hình tương tác thông minh, máy chiếu hiện đại, hệ thống điều hòa lọc không khí compensated âm thanh chuẩn chống ồn giúp học sinh tập trung tối đa.',
+                img: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=1000&q=80'
+            },
+            thinghiem: {
+                subtitle: 'Nghiên cứu & Thực hành',
+                title: 'Phòng Thí Nghiệm Lý - Hóa - Sinh',
+                desc: 'Hệ thống phòng lab đạt chuẩn quốc tế với đầy đủ thiết bị kính hiển vi, dụng cụ thí nghiệm bảo hộ an toàn tuyệt đối cho học sinh thực hành nghiên cứu khoa học.',
+                img: 'https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1000&q=80'
+            },
+            thethao: {
+                subtitle: 'Rèn luyện thể chất',
+                title: 'Khu Thể Thao Phức Hợp & Bể Bơi Bốn Mùa',
+                desc: 'Sân bóng đá cỏ nhân tạo, sân rổ trong nhà cùng bể bơi nước ấm đạt chuẩn Olympic giúp học sinh rèn luyện thể lực và tinh thần thể thao đồng đội.',
+                img: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1000&q=80'
+            },
+            thuvien: {
+                subtitle: 'Không gian sáng tạo',
+                title: 'Thư Viện Mở Đa Năng',
+                desc: 'Hơn 20,000 đầu sách Tiếng Việt và Tiếng Anh cùng khu vực đọc sách mở thông tầng, giúp truyền cảm hứng đọc và nghiên cứu tài liệu cho mọi lứa tuổi.',
+                img: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1000&q=80'
+            }
+        };
+
+        function switchFacilityTab(key) {
+            // Active style
+            document.querySelectorAll('.facility-tab').forEach(tab => {
+                tab.classList.remove('text-blue-700', 'border-blue-700');
+                tab.classList.add('text-slate-500', 'border-transparent');
+            });
+            const activeTab = document.getElementById(`tab-${key}`);
+            activeTab.classList.add('text-blue-700', 'border-blue-700');
+
+            // Update content
+            const data = facilityData[key];
+            document.getElementById('fac-subtitle').innerText = data.subtitle;
+            document.getElementById('fac-title').innerText = data.title;
+            document.getElementById('fac-desc').innerText = data.desc;
+            document.getElementById('fac-image').src = data.img;
+        }
+
+        // Open Modal for Specific Level Details
+        const modalData = {
+            primary: {
+                title: 'Chi Tiết Khối Tiểu Học (Lớp 1 - Lớp 5)',
+                badge: 'Tiểu Học',
+                badgeColor: 'bg-amber-500',
+                desc: 'Khối Tiểu học tập trung vào việc tạo dựng niềm vui học tập, hình thành nhân cách tốt và sự tự tin ban đầu.',
+                items: [
+                    'Chương trình Tiếng Anh Cambridge Starter/Mover/Flyer với 50% giáo viên bản ngữ.',
+                    'Phương pháp giáo dục học qua chơi (Play-based learning) và dã ngoại trải nghiệm hàng tháng.',
+                    'Rèn luyện kỹ năng tự phục vụ, đọc sách chủ động và làm quen CNTT cơ bản.'
+                ]
+            },
+            secondary: {
+                title: 'Chi Tiết Khối THCS (Lớp 6 - Lớp 9)',
+                badge: 'THCS',
+                badgeColor: 'bg-sky-600',
+                desc: 'Khối THCS định hình phương pháp tư duy độc lập, rèn luyện kỹ năng giải quyết vấn đề và phát hiện năng khiếu chuyên sâu.',
+                items: [
+                    'Đào tạo STEM tích hợp và Lập trình ứng dụng căn bản.',
+                    'Rèn luyện chứng chỉ Tiếng Anh KET/PET/IELTS Foundation.',
+                    'Tham gia các CLB Tranh biện, Thể thao, Âm nhạc và Hoạt động xã hội.'
+                ]
+            },
+            high: {
+                title: 'Chi Tiết Khối THPT (Lớp 10 - Lớp 12)',
+                badge: 'THPT',
+                badgeColor: 'bg-indigo-600',
+                desc: 'Giai đoạn bứt phá hướng tới các trường Đại học Top đầu Việt Nam & Du học Quốc tế.',
+                items: [
+                    'Lộ trình luyện thi IELTS (mục tiêu 6.5 - 8.0) & Cam kết chuẩn đầu ra.',
+                    'Tư vấn hướng nghiệp 1-1, thiết lập hồ sơ săn học bổng du học Mỹ, Úc, Singapore.',
+                    'Chương trình Nghiên cứu khoa học học sinh và Đổi mới sáng tạo.'
+                ]
+            }
+        };
+
+        function openLevelModal(level) {
+            const data = modalData[level];
+            const contentHTML = `
+                <span class="${data.badgeColor} text-white font-extrabold text-xs px-3 py-1 rounded-full uppercase tracking-wider">
+                    ${data.badge}
+                </span>
+                <h3 class="text-2xl font-bold text-slate-900 mt-3 mb-2">${data.title}</h3>
+                <p class="text-slate-600 text-sm mb-6">${data.desc}</p>
+                
+                <h4 class="font-bold text-slate-800 text-sm mb-3">Điểm Nổi Bật Trong Chương Trình:</h4>
+                <ul class="space-y-2 mb-6">
+                    ${data.items.map(item => `
+                        <li class="flex items-start gap-2 text-sm text-slate-600">
+                            <i class="fa-solid fa-circle-check text-emerald-500 mt-1"></i>
+                            <span>${item}</span>
+                        </li>
+                    `).join('')}
+                </ul>
+
+                <div class="pt-4 border-t border-slate-100 flex justify-end">
+                    <a href="#tuyensinh" onclick="closeLevelModal()" class="px-5 py-2.5 bg-amber-500 text-white font-bold text-xs uppercase rounded-xl shadow hover:bg-amber-600 transition">
+                        Đăng ký tư vấn khối này
+                    </a>
+                </div>
+            `;
+            document.getElementById('modalContent').innerHTML = contentHTML;
+            document.getElementById('levelModal').classList.remove('hidden');
+        }
+
+        function closeLevelModal() {
+            document.getElementById('levelModal').classList.add('hidden');
+        }
+
+        // Handle Enrollment Form Submission
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            document.getElementById('enrollmentForm').classList.add('hidden');
+            document.getElementById('formSuccess').classList.remove('hidden');
+        }
+
+        function resetForm() {
+            document.getElementById('enrollmentForm').reset();
+            document.getElementById('enrollmentForm').classList.remove('hidden');
+            document.getElementById('formSuccess').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
